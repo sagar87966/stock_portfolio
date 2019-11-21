@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Add stocks</h1>
+    <div>
+        <p>
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+           Add Stocks
+          </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            <form action="{% url 'add_stock' %}" method="POST">
+              <div class="form-group">
+               {% csrf_token %}
+                <label for="exampleInputTicker">Ticker Name</label>
+                <input type="input" name="ticker" class="form-control" id="exampleInputTicker" placeholder="Enter ticker name..">
+              </div>
+              <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+          </div>
+        </div>
+    </div>
+    <br>
+    <h3>Listed Tickers.</h3>
+    <table class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+              <th scope="col col-sm">Company Name</th>
+              <th scope="col col-sm">Price</th>
+              <th scope="col col-sm">Previous Close</th>
+              <th scope="col col-sm">Market Cap</th>
+              <th scope="col col-sm">YTD Change</th>
+              <th scope="col col-sm">52 Week High</th>
+              <th scope="col col-sm">52 Week Low</th>
+              <th scope="col col-sm">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% if all_stocks %}
+      {% for ticker in api %}
+        <tr>
+          <th scope="row">{{ ticker.companyName }}</th>
+          <td>{{ ticker.latestPrice }}</td>
+          <td>{{ ticker.previousClose }}</td>
+          <td>{{ ticker.marketCap }}</td>
+          <td>{{ ticker.ytdChange }}</td>
+          <td>{{ ticker.week52High }}</td>
+          <td>{{ ticker.week52Low }}</td>
+          <td><a href="{% url 'delete' ticker.id %}"><i class="material-icons" style="color:red;cursor: pointer;">delete</i></a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    {% endif %}
+    </table>
+<!--    {% for ticker in all_stocks %}-->
+<!--        <div class="alert alert-primary" role="alert">-->
+<!--            <h4>{{ ticker }}</h4>-->
+<!--        </div>-->
+<!--    {% endfor %}-->
+<!--    {% for ticker in api %}-->
+<!--        <div class="alert alert-primary" role="alert">-->
+<!--            <h4>{{ ticker.companyName }}</h4>-->
+<!--        </div>-->
+<!--    {% endfor %}-->
+{% endblock %}

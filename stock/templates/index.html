@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if ticker %}
+  {{ ticker }}
+{% endif %}
+{% if api %}
+  {% if api == 'Error...' %}
+    <div class="alert alert-danger">
+      you have an error, please try again.......
+    </div>
+  {% else %}
+      <h1>{{ api.companyName }}</h1>
+      <div class="alert alert-secondary">
+        <h4 class="alert-heading">price: ${{ api.latestPrice }}</h4>
+        <hr>
+        <h4 class="alert-heading">previous Close: ${{ api.previousClose }}</h4>
+        <hr>
+        <h4 class="alert-heading">Market Cap: {{ api.marketCap }}</h4>
+        <hr>
+        <h4 class="alert-heading">Year to date change: {{ api.ytdChange }}</h4>
+        <hr>
+        <h4 class="alert-heading">52 Week High: {{ api.week52High }}</h4>
+        <hr>
+        <h4 class="alert-heading">52 Week Low: {{ api.week52Low }}</h4>
+      </div>
+  {% endif %}
+{% else %}
+   do something
+{% endif  %}
+
+{% endblock %}
